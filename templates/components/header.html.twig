@@ -1,0 +1,79 @@
+{% import "components/icons.html.twig" as icons %}
+
+<header class="header" x-data="{ open: false }" xmlns:x-transition="http://www.w3.org/1999/xhtml">
+    <div class="header-wrapper">
+        <div class="header-brand">
+            <a href="#">
+                <span class="sr-only">Workflow</span>
+                <img src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="">
+            </a>
+        </div>
+        <div class="header-toggle">
+            <button type="button" @click="open = !open" aria-expanded="false">
+                <span class="sr-only">Open menu</span>
+                {{ icons.menu() }}
+            </button>
+        </div>
+        {{ include("components/nav.html.twig") }}
+        <div class="header-security">
+            {% if not is_granted("ROLE_USER") %}
+                <a href="{{ path("security_login") }}">
+                    Se connecter
+                </a>
+                <a href="#">
+                    S'inscrire
+                </a>
+            {% else %}
+                <a href="{{ path("security_logout") }}">
+                    Se déconnecter
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div
+            class="header-open"
+            x-show="open"
+            x-transition:enter="duration-200 ease-out"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="duration-100 ease-in"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+    >
+        <div>
+            <div class="header-top">
+                <div class="header-brand">
+                    <div>
+                        <img src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+                    </div>
+                    <div class="header-toggle">
+                        <button type="button" @click="open = !open">
+                            <span class="sr-only">Close menu</span>
+                            {{ icons.x() }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="header-body">
+                {{ include("components/nav.html.twig") }}
+                <div class="header-security">
+                    {% if not is_granted("ROLE_USER") %}
+                        <a href="#">
+                            S'inscrire
+                        </a>
+                        <p>
+                            Déjà inscrit ?
+                            <a href="{{ path("security_login") }}">
+                                Se connecter
+                            </a>
+                        </p>
+                    {% else %}
+                        <a href="{{ path("security_logout") }}">
+                            Se déconnecter
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

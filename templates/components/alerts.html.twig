@@ -1,0 +1,34 @@
+{% macro alert(state, icon, content) %}
+    <div class="alert alert-{{ state }}">
+        <div>
+            <div class="alert-icon">
+                {{ icon }}
+            </div>
+            <div class="alert-content">
+                <p>
+                    {{ content }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro success(content) %}
+    {% import "components/icons.html.twig" as icons %}
+    {{ _self.alert("success", icons.check_circle(), content) }}
+{% endmacro %}
+
+{% macro danger(content) %}
+    {% import "components/icons.html.twig" as icons %}
+    {{ _self.alert("danger", icons.x_circle(), content) }}
+{% endmacro %}
+
+{% macro info(content) %}
+    {% import "components/icons.html.twig" as icons %}
+    {{ _self.alert("info", icons.information_circle(), content) }}
+{% endmacro %}
+
+{% macro warning(content) %}
+    {% import "components/icons.html.twig" as icons %}
+    {{ _self.alert("warning", icons.exclamation(), content) }}
+{% endmacro %}
