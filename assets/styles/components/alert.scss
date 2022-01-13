@@ -1,0 +1,43 @@
+.alert {
+  @apply rounded-md p-4;
+
+  > div {
+    @apply flex;
+
+    > .alert-icon {
+      @apply flex-shrink-0;
+
+      > svg {
+        @apply h-5 w-5;
+      }
+    }
+
+    > .alert-content {
+      @apply ml-3;
+
+      > p {
+        @apply text-sm font-medium;
+      }
+    }
+  }
+
+  @each $name, $background, $color, $icon in $alerts {
+    &-#{$name} {
+      @apply #{$background};
+
+      > div {
+        > .alert-icon {
+          > svg {
+            @apply #{$icon};
+          }
+        }
+
+        > .alert-content {
+          > p {
+            @apply #{$color};
+          }
+        }
+      }
+    }
+  }
+}
