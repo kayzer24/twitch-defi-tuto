@@ -18,7 +18,7 @@ final class UserFixtures extends Fixture
         $this->userPasswordHasher = $userPasswordHasher;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         for ($i = 0; $i < 10; ++$i) {
             $manager->persist($this->createUser($i));
@@ -27,7 +27,7 @@ final class UserFixtures extends Fixture
         $manager->flush();
     }
 
-    private function createUser(int $index)
+    private function createUser(int $index): User
     {
         $user = new User();
         $user->setEmail(sprintf('user+%d@email.com', $index));

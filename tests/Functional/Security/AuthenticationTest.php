@@ -65,20 +65,28 @@ class AuthenticationTest extends WebTestCase
     }
 
     /**
-     * @return Generator{_username: string, _password: string}
+     * @return Generator<string, array<array-key, array<string, string>>>
      */
-    public function provideInvalidData(): Generator
+    public function provideInvalidData(): iterable
     {
-        $baseData = static fn (array $data): array => $data + [
-                '_username' => 'user+1@email.com',
-                '_password' => 'password'
-            ];
+        yield 'wrong email' => [$this->createData(['_username' => 'fail@email.com'])];
+        yield 'empty email' => [$this->createData(['_username' => ''])];
+        yield 'wrong password' => [$this->createData(['_password' => 'fail'])];
+        yield 'empty password' => [$this->createData(['_password' => ''])];
+        yield 'empty csrf' => [$this->createData(['_csrf_token' => ''])];
+        yield 'wrong csrf' => [$this->createData(['_csrf_token' => 'fail'])];
+    }
 
-        yield "wrong email" => [$baseData(["_username" => 'fail@email.com'])];
-        yield "empty email" => [$baseData(["_username" => ''])];
-        yield "wrong password" => [$baseData(["_password" => 'fail'])];
-        yield "empty password" => [$baseData(["_password" => ''])];
-        yield "empty csrf" => [$baseData(["_csrf_token" => ''])];
-        yield "wrong csrf" => [$baseData(["_csrf_token" => 'fail'])];
+    /**
+     * @param array<string, string> $extra
+     *
+     * @return array<string, string>
+     */
+    private function createData(array $extra)
+    {
+        return $extra + [
+                '_username' => 'user+1@email.com',
+                '_password' => 'password',
+            ];
     }
 }
