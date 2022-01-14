@@ -20,7 +20,7 @@
                 <a href="{{ path("security_login") }}">
                     Se connecter
                 </a>
-                <a href="#">
+                <a href="{{ path("security_registration") }}">
                     S'inscrire
                 </a>
             {% else %}
@@ -58,7 +58,7 @@
                 {{ include("components/nav.html.twig") }}
                 <div class="header-security">
                     {% if not is_granted("ROLE_USER") %}
-                        <a href="#">
+                        <a href="{{ path("security_registration") }}">
                             S'inscrire
                         </a>
                         <p>

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -25,11 +26,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email()
+     * @Assert\NotBlank()
      */
     private string $email;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private string $nickname;
 
@@ -38,6 +42,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      */
     private string $password;
+
+    /**
+     * @Assert\Length(min="8", groups={"register"})
+     */
+    private ?string $plainPassword = null;
 
     public function getId(): ?int
     {
@@ -74,6 +83,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
     }
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
     /**
      * @return array<array-key, string>
      */
@@ -82,8 +101,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return ['ROLE_USER'];
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
+        $this->plainPassword = null;
     }
 
     public function getUserIdentifier(): string

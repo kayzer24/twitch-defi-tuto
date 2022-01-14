@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Gateway;
 
-interface UserGateway {
+use App\Entity\User;
 
+interface UserGateway
+{
+    public function create(User $user): void;
 }

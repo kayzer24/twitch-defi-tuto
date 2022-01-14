@@ -33,7 +33,7 @@ stylelint:
 	npx stylelint "assets/styles/**/*.scss"
 
 phpstan:
-	php vendor/bin/phpstan analyse -c phpstan.neon src --no-progress
+	php vendor/bin/phpstan analyse -c phpstan.neon
 
 php-cs-fixer:
 	symfony php vendor/bin/php-cs-fixer fix
